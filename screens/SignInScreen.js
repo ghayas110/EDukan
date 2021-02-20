@@ -1,22 +1,10 @@
 import React from 'react';
-import { 
-    View, 
-    Text, 
-    TouchableOpacity, 
-    TextInput,
-    Platform,
-    StyleSheet ,
-    StatusBar,
-    Alert
-} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
-
-
-
+import { connect } from 'react-redux';
 
 const SignInScreen = ({navigation}) => {
 
@@ -28,8 +16,6 @@ const SignInScreen = ({navigation}) => {
         isValidUser: true,
         isValidPassword: true,
     });
-
- 
 
     const textInputChange = (val) => {
         if( val.trim().length >= 4 ) {
@@ -216,7 +202,7 @@ const SignInScreen = ({navigation}) => {
     );
 };
 
-export default SignInScreen;
+export default connect()(SignInScreen);
 
 const styles = StyleSheet.create({
     container: {
