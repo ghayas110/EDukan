@@ -7,14 +7,14 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+// import {
+//   SafeAreaView,
+//   StyleSheet,
+//   ScrollView,
+//   View,
+//   Text,
+//   StatusBar,
+// } from 'react-native';
 
 import {
   Header,
@@ -23,51 +23,42 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import SignInScreen from './screens/SignInScreen';
+import { Provider } from 'react-redux';
+import { configureStore } from './redux/ConfigureStore'
+import { PersistGate } from 'redux-persist/integration/react';
+import Main from './Components/Main';
 
-const App: () => React$Node = () => {
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { StyleSheet, Text, View,Button } from 'react-native';
+import Maintabscreen from './Elite/MaintabScreen';
+// import React from 'react';
+import DrawerContent from './Elite/DrawerContent';
+
+
+const { persistor, store } = configureStore()
+const Drawer = createDrawerNavigator();
+export default function App() {
   return (
-    <SignInScreen/>
+    <>
+    {/* <StatusBar 
+    <Provider store={store} >
+        <PersistGate
+        // loading={<Loading />}
+        persistor={persistor} 
+        >
+          <Main />
+        </PersistGate>
+      </Provider> */}
+          <NavigationContainer>
+       {/* <SignUpScreen/>  */}
+ <Drawer.Navigator initialRouteName="Home" drawerContent={props=><DrawerContent {...props}/>}>
+    <Drawer.Screen name="Home" component={Maintabscreen} />
+  
+  </Drawer.Navigator> 
+  </NavigationContainer>
+      </>
   );
-};
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
-
-export default App;
+}

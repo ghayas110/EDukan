@@ -1,20 +1,17 @@
-import React, { useEffect } from 'react'
-import { StackActions, useNavigation } from '@react-navigation/native';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Text, View, StyleSheet, StatusBar, TouchableOpacity } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { connect } from 'react-redux';
+import SplashScreen from "./SplashScreen";
+import { Button } from "react-native-elements";
+import { StackActions, useNavigation } from "@react-navigation/native";
 
-const SplashScreen = (props) => {
+const MainScreen = (props) => {
 
-    const navigation = useNavigation();
-
-    useEffect(() => {
-        setTimeout(() => {
-            navigation.dispatch(StackActions.replace('main'))
-        }, 3000);
-    }, [])
+    const navigation = useNavigation()
+    
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#009387' barStyle="light-content" />
@@ -28,29 +25,14 @@ const SplashScreen = (props) => {
                 />
             </View>
             <View style={styles.footer}>
-                <Text style={styles.title}>Want to Plan an Event</Text>
-                <Text style={styles.stitle}>We Eventify are here to Help You</Text>
-                <View style={styles.button}>
-                    <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
-                        <LinearGradient
-                            colors={['#F99B4E', '#01ab9d']}
-                            style={styles.signIn}
-                        >
-                            <Text style={styles.textSign}>Get Started</Text>
-                            <MaterialIcons
-                                name="navigate-next"
-                                color="#fff"
-                                size={20}
-                            />
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
+                <Button title='Sign Up' type='outline' raised buttonStyle={{borderRadius: 50}} containerStyle={{margin: 20}} 
+                titleStyle={{fontWeight: "bold"}} onPress={() => navigation.dispatch(StackActions.push('signup')) } />
+                <Button title='Sign In' type='outline' raised buttonStyle={{borderRadius: 50}} containerStyle={{margin: 20}} 
+                titleStyle={{fontWeight: "bold"}} onPress={() => navigation.dispatch(StackActions.push('signin')) } />
             </View>
         </View>
-    );
-};
-export default connect()(SplashScreen);
-
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -101,3 +83,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 })
+
+export default connect()(MainScreen)
