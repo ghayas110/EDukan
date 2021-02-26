@@ -7,14 +7,14 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+// import {
+//   SafeAreaView,
+//   StyleSheet,
+//   ScrollView,
+//   View,
+//   Text,
+//   StatusBar,
+// } from 'react-native';
 
 import {
   Header,
@@ -26,26 +26,44 @@ import {
 import { Provider } from 'react-redux';
 import { configureStore } from './redux/ConfigureStore'
 import { PersistGate } from 'redux-persist/integration/react';
-import Main from './Components/Main';
-import Amplify from 'aws-amplify'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import Maintabscreen from './Elite/MaintabScreen';
+// import React from 'react';
+import DrawerContent from './Elite/DrawerContent';
+
+import Main from './component/Main';
+import Amplify, { Auth } from 'aws-amplify'
 import config from './aws-exports'
+
 
 Amplify.configure(config)
 
 const { persistor, store } = configureStore()
-
-export default function App() {
+const Drawer = createDrawerNavigator();
+const App = () => {
   return (
     <>
-    {/* <StatusBar  */}
-    <Provider store={store} >
+      {/* <StatusBar  /> */}
+        <Provider store={store} >
         <PersistGate
-        // loading={<Loading />}
-        persistor={persistor} 
+          // loading={<Loading />}
+          persistor={persistor}
         >
           <Main />
         </PersistGate>
       </Provider>
-      </>
+      {/* <NavigationContainer> */}
+        {/* <SignUpScreen/>  */}
+        {/* <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
+          <Drawer.Screen name="Home" component={Maintabscreen} />
+
+        </Drawer.Navigator>
+      </NavigationContainer> */}
+    </>
   );
 }
+
+export default App
