@@ -4,15 +4,18 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import { Auth } from 'aws-amplify';
+import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify';
 import { StackActions, useNavigation } from '@react-navigation/native';
+import { ButtonGroup } from 'react-native-elements';
+import { createUser, updateUser } from '../graphql/mutations';
 
 const SignUpScreen = (props) => {
 
     const navigation = useNavigation()
 
     const [data, setData] = React.useState({
-        username: '',
+        category: 'reseller',
+        index: 0,
         email: '',
         password: '',
         phone_number: '',
@@ -34,9 +37,19 @@ const SignUpScreen = (props) => {
                         email: data.email,          // optional
                         phone_number: data.phone_number,   // optional - E.164 number convention
                         // other custom attributes
+                        'custom:category': data.category
                     }
                 })
                     .then((user) => {
+                        if (data.category === 'elite') {
+                            const user = { username: data.email, email: data.email, phone_number: data.phone_number, category: data.category }
+                            await API.graphql(graphqlOperation(createUser, { input: user }))
+                        }
+                        else {
+                            const user = { username: data.email, email: data.email, phone_number: data.phone_number, category: data.category }
+                            await API.graphql(graphqlOperation(createUser, { input: user }))
+                            // await API.graphql(graphqlOperation(updateUser, {}))
+                        }
                         navigation.dispatch(StackActions.push('confirmation', { username: user.user.getUsername(), userEmail: data.email }))
                         console.log(user, user.user.getUsername())
                     })
@@ -51,29 +64,8 @@ const SignUpScreen = (props) => {
         }
     }
 
-    // const handleSignUp = () => {
-    //     if (/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/.test(data.email)) {
-    //         signUp()
-    //     } else {
-    //         console.log('error email:');
-    //         ToastAndroid.showWithGravity('Provide correct email', ToastAndroid.LONG, ToastAndroid.CENTER)
-    //     }
-    // }
-
-    const textInputChange = (val) => {
-        if (val.length > 3) {
-            setData({
-                ...data,
-                username: val,
-                check_textInputChange: true
-            });
-        } else {
-            setData({
-                ...data,
-                username: val,
-                check_textInputChange: false
-            });
-        }
+    const updateIndex = (selectedIndex) => {
+        setData({ ...data, category: selectedIndex === 0 ? 'reseller' : 'elite', index: selectedIndex })
     }
 
     const handleEmailAddress = (val) => {
@@ -148,34 +140,16 @@ const SignUpScreen = (props) => {
                 style={styles.footer}
             >
                 <ScrollView>
-                    <Text style={styles.text_footer}>Username</Text>
+                    <Text style={styles.text_footer}>Category</Text>
                     <View style={styles.action}>
-                        <FontAwesome
-                            name="user-o"
-                            color="#05375a"
-                            size={20}
+                        <ButtonGroup selectedButtonStyle={{ backgroundColor: '#F99B4E' }} textStyle={{ fontSize: 16 }}
+                            containerStyle={{ width: '100%' }}
+                            onPress={updateIndex}
+                            selectedIndex={data.index}
+                            buttons={['Reseller', 'Elite']}
                         />
-                        <TextInput
-                            placeholder="Your Username"
-                            textContentType="emailAddress"
-                            keyboardType='email-address'
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            onChangeText={(val) => textInputChange(val)}
-                        />
-                        {data.check_textInputChange ?
-                            <Animatable.View
-                                animation="bounceIn"
-                            >
-                                <Feather
-                                    name="check-circle"
-                                    color="green"
-                                    size={20}
-                                />
-                            </Animatable.View>
-                            : null}
                     </View>
-
+                    <Text style={{ color: '#000000' }} >{data.category}</Text>
                     <Text style={[styles.text_footer, {
                         marginTop: 20
                     }]}>Email</Text>
@@ -332,7 +306,7 @@ const SignUpScreen = (props) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => navigation.dispatch(StackActions.replace('signin', {userEmail: null, username: null}))}
+                            onPress={() => navigation.dispatch(StackActions.replace('signin', { userEmail: null, username: null }))}
                             style={[styles.signIn, {
                                 borderColor: '#F99B4E',
                                 borderWidth: 1,

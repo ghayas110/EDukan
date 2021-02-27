@@ -1,8 +1,8 @@
 projects:
-  try:
-    schemaPath: amplify/backend/api/try/build/schema.graphql
+  eDukan:
+    schemaPath: amplify/backend/api/eDukan/build/schema.graphql
     includes:
-      - 'src/graphql/**/*.js'
+      - src/graphql/**/*.js
     excludes:
       - ./amplify/**
     extensions:

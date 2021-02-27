@@ -1,43 +1,202 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
+    createUser(input: $input, condition: $condition) {
       id
-      name
-      description
+      username
+      email
+      phone_number
+      category
+      resellers {
+        id
+        username
+        email
+        phone_number
+        category
+        resellers {
+          id
+          username
+          email
+          phone_number
+          category
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    updateTodo(input: $input, condition: $condition) {
+    updateUser(input: $input, condition: $condition) {
       id
-      name
-      description
+      username
+      email
+      phone_number
+      category
+      resellers {
+        id
+        username
+        email
+        phone_number
+        category
+        resellers {
+          id
+          username
+          email
+          phone_number
+          category
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    deleteTodo(input: $input, condition: $condition) {
+    deleteUser(input: $input, condition: $condition) {
       id
-      name
+      username
+      email
+      phone_number
+      category
+      resellers {
+        id
+        username
+        email
+        phone_number
+        category
+        resellers {
+          id
+          username
+          email
+          phone_number
+          category
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createProduct = /* GraphQL */ `
+  mutation CreateProduct(
+    $input: CreateProductInput!
+    $condition: ModelProductConditionInput
+  ) {
+    createProduct(input: $input, condition: $condition) {
+      id
+      userId {
+        id
+        username
+        email
+        phone_number
+        category
+        resellers {
+          id
+          username
+          email
+          phone_number
+          category
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      title
       description
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateProduct = /* GraphQL */ `
+  mutation UpdateProduct(
+    $input: UpdateProductInput!
+    $condition: ModelProductConditionInput
+  ) {
+    updateProduct(input: $input, condition: $condition) {
+      id
+      userId {
+        id
+        username
+        email
+        phone_number
+        category
+        resellers {
+          id
+          username
+          email
+          phone_number
+          category
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      title
+      description
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteProduct = /* GraphQL */ `
+  mutation DeleteProduct(
+    $input: DeleteProductInput!
+    $condition: ModelProductConditionInput
+  ) {
+    deleteProduct(input: $input, condition: $condition) {
+      id
+      userId {
+        id
+        username
+        email
+        phone_number
+        category
+        resellers {
+          id
+          username
+          email
+          phone_number
+          category
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      title
+      description
+      price
       createdAt
       updatedAt
     }
