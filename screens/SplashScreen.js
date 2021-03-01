@@ -31,7 +31,7 @@ const SplashScreen = (props) => {
                 <Text style={styles.title}>Want to Plan an Event</Text>
                 <Text style={styles.stitle}>We Eventify are here to Help You</Text>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
+                    <TouchableOpacity onPress={() => {}}>
                         <LinearGradient
                             colors={['#F99B4E', '#01ab9d']}
                             style={styles.signIn}

@@ -13,6 +13,8 @@ import EditProfile from './EditProfile';
 import CardCustDetails from './CardCustDetails';
 import CardCustScreen from './CardCustScreen';
 import Upload from './Upload';
+import { Auth } from 'aws-amplify';
+
 // import CardOrderDetails from './CardOrderDetails';
 // import CardOrderScreen from './CardorderScreen';
 const Tab = createMaterialBottomTabNavigator();
@@ -25,6 +27,9 @@ const ProfileStack = createStackNavigator();
 
 const RootStack = createStackNavigator();
 export default function MyTabs() {
+  Auth.currentUserInfo().then((data) => {
+    console.log(data)
+  })
     return (
      
       <Tab.Navigator

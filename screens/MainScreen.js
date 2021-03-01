@@ -28,7 +28,7 @@ const MainScreen = (props) => {
                 <Button title='Sign Up' type='outline' raised buttonStyle={{borderRadius: 50}} containerStyle={{margin: 20}} 
                 titleStyle={{fontWeight: "bold"}} onPress={() => navigation.dispatch(StackActions.push('signup')) } />
                 <Button title='Sign In' type='outline' raised buttonStyle={{borderRadius: 50}} containerStyle={{margin: 20}} 
-                titleStyle={{fontWeight: "bold"}} onPress={() => navigation.dispatch(StackActions.push('signin')) } />
+                titleStyle={{fontWeight: "bold"}} onPress={() => navigation.dispatch(StackActions.push('signin', {userEmail: null, username: null})) } />
             </View>
         </View>
     )

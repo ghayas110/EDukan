@@ -2,11 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { persistStore, persistCombineReducers } from 'redux-persist'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ads } from './ads'
 import { categories } from './categories'
 import { users } from './users'
 import { favorites } from './favorites'
+import { loggedInUser } from './loggedInUser'
 
 export const configureStore = () => {
     const config = {
@@ -17,10 +18,7 @@ export const configureStore = () => {
 
     const store = createStore(
         persistCombineReducers(config, {
-            ads,
-            categories,
-            users,
-            favorites,
+            loggedInUser
         }),
         compose(
             applyMiddleware(thunk)
