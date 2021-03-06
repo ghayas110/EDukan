@@ -121,11 +121,12 @@ export default function Upload() {
           const product = { userId: loggedInUser.users.id, title: data.title, description: data.description, price: data.price }
           const newProduct = await API.graphql(graphqlOperation(createProduct, { input: product }))
           console.log(newProduct.data.createProduct.id)
-          const id = newProduct.data.createProduct.id
+          const productId = newProduct.data.createProduct.id
+          const userId = loggedInUser.users.id 
           for (const i in images) {
             const base64 = await readFile(images[i].uri, 'base64')
             const arrayBuffer = decode(base64)
-            await Storage.put(`p-${id}/${images[i].name}`, arrayBuffer, {
+            await Storage.put(`${userId}/p-${productId}/${images[i].name}`, arrayBuffer, {
               level: 'private'
             })
               .then((res) => {

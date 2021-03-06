@@ -28,7 +28,7 @@ const ProfileStack = createStackNavigator();
 const RootStack = createStackNavigator();
 export default function MyTabs() {
   Auth.currentUserInfo().then((data) => {
-    console.log(data)
+    console.log(data.id)
   })
     return (
      
