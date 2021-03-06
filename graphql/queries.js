@@ -9,24 +9,7 @@ export const getUser = /* GraphQL */ `
       email
       phone_number
       category
-      resellers {
-        id
-        username
-        email
-        phone_number
-        category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      elliteId
       createdAt
       updatedAt
     }
@@ -45,15 +28,7 @@ export const listUsers = /* GraphQL */ `
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }
@@ -65,21 +40,14 @@ export const getProduct = /* GraphQL */ `
   query GetProduct($id: ID!) {
     getProduct(id: $id) {
       id
-      userId {
+      userId
+      user {
         id
         username
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }
@@ -100,12 +68,14 @@ export const listProducts = /* GraphQL */ `
     listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        userId {
+        userId
+        user {
           id
           username
           email
           phone_number
           category
+          elliteId
           createdAt
           updatedAt
         }

@@ -1,5 +1,7 @@
+import { CommonActions, StackActions, useNavigation } from '@react-navigation/native';
+import { Auth } from 'aws-amplify';
 import React from 'react';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
 import {
   Avatar,
   Title,
@@ -9,73 +11,102 @@ import {
 } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch } from 'react-redux';
+import * as ActionTypes from '../redux/ActionTypes'
 
 
 const ProfileScreen = () => {
 
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+
+  async function signOut() {
+    try {
+      await Auth.signOut({ global: true });
+      setTimeout(() => {
+        dispatch({
+          type: ActionTypes.LOGGEDOUT,
+          payload: []
+        })
+        navigation.dispatch(CommonActions.reset({
+          index: 1,
+          routes: [{ name: 'main' }]
+        }))
+      }, 100);
+    } catch (error) {
+      console.log('error signing out: ', error);
+    }
+  }
+
 
   return (
-    
+
     <SafeAreaView style={styles.container}>
-    <View style={styles.userInfoSection}>
-    <View style={{flexDirection: 'row', marginTop: 15}}>
-      <Avatar.Image 
-        source={
-          require('../assets/ghayas.jpg' )
-        }
-        size={80}
-      />
-      <View style={{marginLeft: 20}}>
-        <Title style={[styles.title, {
-          marginTop:15,
-          marginBottom: 5,
-        }]}>Ghayas</Title>
-        <Caption style={styles.caption}>@ghayas110</Caption>
+      <View style={styles.userInfoSection}>
+        <View style={{ flexDirection: 'row', marginTop: 15 }}>
+          <Avatar.Image
+            source={
+              require('../assets/ghayas.jpg')
+            }
+            size={80}
+          />
+          <View style={{ marginLeft: 20 }}>
+            <Title style={[styles.title, {
+              marginTop: 15,
+              marginBottom: 5,
+            }]}>Ghayas</Title>
+            <Caption style={styles.caption}>@ghayas110</Caption>
+          </View>
+        </View>
       </View>
-    </View>
-  </View>
-  <View style={styles.userInfoSection}>
+      <View style={styles.userInfoSection}>
         <View style={styles.row}>
-          <Icon name="map-marker-radius" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>Pakistan,Karachi</Text>
+          <Icon name="map-marker-radius" color="#777777" size={20} />
+          <Text style={{ color: "#777777", marginLeft: 20 }}>Pakistan,Karachi</Text>
         </View>
         <View style={styles.row}>
-          <Icon name="phone" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>+92-3002661456</Text>
+          <Icon name="phone" color="#777777" size={20} />
+          <Text style={{ color: "#777777", marginLeft: 20 }}>+92-3002661456</Text>
         </View>
         <View style={styles.row}>
-          <Icon name="email" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>ghayas110@gmail.com</Text>
+          <Icon name="email" color="#777777" size={20} />
+          <Text style={{ color: "#777777", marginLeft: 20 }}>ghayas110@gmail.com</Text>
         </View>
       </View>
       <View style={styles.menuWrapper}>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={() => { }}>
           <View style={styles.menuItem}>
-            <Icon name="heart-outline" color="#FF6347" size={25}/>
+            <Icon name="heart-outline" color="#FF6347" size={25} />
             <Text style={styles.menuItemText}>Your Favorites</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={() => { }}>
           <View style={styles.menuItem}>
-            <Icon name="credit-card" color="#FF6347" size={25}/>
+            <Icon name="credit-card" color="#FF6347" size={25} />
             <Text style={styles.menuItemText}>Payment</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={() => { }}>
           <View style={styles.menuItem}>
-            <Icon name="share-outline" color="#FF6347" size={25}/>
+            <Icon name="share-outline" color="#FF6347" size={25} />
             <Text style={styles.menuItemText}>Tell Your Friends</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={() => { }}>
           <View style={styles.menuItem}>
-            <Icon name="account-check-outline" color="#FF6347" size={25}/>
+            <Icon name="account-check-outline" color="#FF6347" size={25} />
             <Text style={styles.menuItemText}>Support</Text>
           </View>
         </TouchableRipple>
-        </View>
-  </SafeAreaView>
-   
+        <TouchableRipple onPress={signOut}>
+          <View style={styles.menuItem}>
+            <Icon name="account-check-outline" color="#FF6347" size={25} />
+            <Text style={styles.menuItemText}>SignOut</Text>
+          </View>
+        </TouchableRipple>
+      </View>
+    </SafeAreaView>
+
   );
 };
 

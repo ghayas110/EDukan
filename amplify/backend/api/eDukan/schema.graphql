@@ -1,19 +1,27 @@
-type User @model {
+type User @model @key(name: "byReseller", fields: ["elliteId"])  {
   id: ID!
   username: String!
   email: String!
   phone_number: String!
   category: String!
-  resellers: [User]
+  elliteId: ID
 }
 
-type Product @model {
+type Product @model @key(name: "byUser", fields: ["userId"])  {
   id: ID!
-  userId: User!
+  userId: ID! 
+  user: User! @connection(fields: ["userId"])
   title: String!
-  description: String
+  description: String!
   price: Float!
+  # quantity: Int!
+  # unitId: ID!
+  # unit: Unit!
+}
 
+type Unit @model {
+  unitId: ID!
+  unit: String!
 }
 
 # type Blog @model {

@@ -29,7 +29,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
 import Maintabscreen from './Elite/MaintabScreen';
 // import React from 'react';
 import DrawerContent from './Elite/DrawerContent';
@@ -46,8 +46,8 @@ const Drawer = createDrawerNavigator();
 const App = () => {
   return (
     <>
-      {/* <StatusBar  /> */}
-        <Provider store={store} >
+      {/* <StatusBar barStyle='default' backgroundColor='#FF0000' /> */}
+      <Provider store={store} >
         <PersistGate
           // loading={<Loading />}
           persistor={persistor}
@@ -56,8 +56,8 @@ const App = () => {
         </PersistGate>
       </Provider>
       {/* <NavigationContainer> */}
-        {/* <SignUpScreen/>  */}
-        {/* <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
+      {/* <SignUpScreen/>  */}
+      {/* <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
           <Drawer.Screen name="Home" component={Maintabscreen} />
 
         </Drawer.Navigator>

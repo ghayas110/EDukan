@@ -9,24 +9,7 @@ export const onCreateUser = /* GraphQL */ `
       email
       phone_number
       category
-      resellers {
-        id
-        username
-        email
-        phone_number
-        category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      elliteId
       createdAt
       updatedAt
     }
@@ -40,24 +23,7 @@ export const onUpdateUser = /* GraphQL */ `
       email
       phone_number
       category
-      resellers {
-        id
-        username
-        email
-        phone_number
-        category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      elliteId
       createdAt
       updatedAt
     }
@@ -71,24 +37,7 @@ export const onDeleteUser = /* GraphQL */ `
       email
       phone_number
       category
-      resellers {
-        id
-        username
-        email
-        phone_number
-        category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      elliteId
       createdAt
       updatedAt
     }
@@ -98,21 +47,14 @@ export const onCreateProduct = /* GraphQL */ `
   subscription OnCreateProduct {
     onCreateProduct {
       id
-      userId {
+      userId
+      user {
         id
         username
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }
@@ -128,21 +70,14 @@ export const onUpdateProduct = /* GraphQL */ `
   subscription OnUpdateProduct {
     onUpdateProduct {
       id
-      userId {
+      userId
+      user {
         id
         username
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }
@@ -158,21 +93,14 @@ export const onDeleteProduct = /* GraphQL */ `
   subscription OnDeleteProduct {
     onDeleteProduct {
       id
-      userId {
+      userId
+      user {
         id
         username
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }

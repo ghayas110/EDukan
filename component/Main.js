@@ -24,30 +24,28 @@ const Main = (props) => {
 
   const [todos, setTodos] = useState([])
   useEffect(() => {
-    // addTodo()
-    // fetchTodos()
 
   }, [])
 
-  async function fetchTodos() {
-    try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      setTodos(todos)
-      console.log('todeos', todos)
-    } catch (err) { console.log('error fetching todos') }
-  }
+  // async function fetchTodos() {
+  //   try {
+  //     const todoData = await API.graphql(graphqlOperation(listTodos))
+  //     const todos = todoData.data.listTodos.items
+  //     setTodos(todos)
+  //     console.log('todeos', todos)
+  //   } catch (err) { console.log('error fetching todos') }
+  // }
 
-  async function addTodo() {
-    try {
-      const todo = { name: "ANy" }
-      //   setTodos([...todos, todo])
-      //   setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, { input: todo }))
-    } catch (err) {
-      console.log('error creating todo:', err)
-    }
-  }
+  // async function addTodo() {
+  //   try {
+  //     const todo = { name: "ANy" }
+  //     //   setTodos([...todos, todo])
+  //     //   setFormState(initialState)
+  //     await API.graphql(graphqlOperation(createTodo, { input: todo }))
+  //   } catch (err) {
+  //     console.log('error creating todo:', err)
+  //   }
+  // }
 
   return (
     <SafeAreaProvider>

@@ -12,24 +12,7 @@ export const createUser = /* GraphQL */ `
       email
       phone_number
       category
-      resellers {
-        id
-        username
-        email
-        phone_number
-        category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      elliteId
       createdAt
       updatedAt
     }
@@ -46,24 +29,7 @@ export const updateUser = /* GraphQL */ `
       email
       phone_number
       category
-      resellers {
-        id
-        username
-        email
-        phone_number
-        category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      elliteId
       createdAt
       updatedAt
     }
@@ -80,24 +46,7 @@ export const deleteUser = /* GraphQL */ `
       email
       phone_number
       category
-      resellers {
-        id
-        username
-        email
-        phone_number
-        category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
+      elliteId
       createdAt
       updatedAt
     }
@@ -110,21 +59,14 @@ export const createProduct = /* GraphQL */ `
   ) {
     createProduct(input: $input, condition: $condition) {
       id
-      userId {
+      userId
+      user {
         id
         username
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }
@@ -143,21 +85,14 @@ export const updateProduct = /* GraphQL */ `
   ) {
     updateProduct(input: $input, condition: $condition) {
       id
-      userId {
+      userId
+      user {
         id
         username
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }
@@ -176,21 +111,14 @@ export const deleteProduct = /* GraphQL */ `
   ) {
     deleteProduct(input: $input, condition: $condition) {
       id
-      userId {
+      userId
+      user {
         id
         username
         email
         phone_number
         category
-        resellers {
-          id
-          username
-          email
-          phone_number
-          category
-          createdAt
-          updatedAt
-        }
+        elliteId
         createdAt
         updatedAt
       }

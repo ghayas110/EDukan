@@ -1,123 +1,136 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button,Image,TouchableOpacity,ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { listUsers } from '../graphql/queries';
 import CardCustScreen from './CardCustScreen';
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen(props) {
+
+  const navigation = useNavigation()
+  const [resellers, setResellers] = useState([])
+
+  useEffect(() => {
+    fetchReseller()
+  }, [])
+
+  async function fetchReseller() {
+    try {
+      await Auth.currentAuthenticatedUser()
+        .then(async (data) => {
+          console.log(data.attributes.email)
+          const getIdData = await API.graphql(graphqlOperation(listUsers, { filter: { email: { contains: data.attributes.email } } }))
+          const getId = getIdData.data.listUsers.items
+          if (getId[0] !== undefined) {
+            const getResellersData = await API.graphql(graphqlOperation(listUsers, { filter: { elliteId: { contains: getId[0].id }, category: { contains: 'reseller' } } }))
+            const getResellers = getResellersData.data.listUsers.items
+            if (getResellers[0] !== undefined)
+              setResellers(getResellers)
+            else
+              setResellers([])
+          }
+          else {
+            console.log('No reseller found')
+          }
+        })
+    } catch (err) {
+      console.log('err:', err)
+    }
+  }
+
+  const renderResellers = () => {
+    console.log('render', resellers)
+    return resellers.map((item, index) => {
+      return (
+        <TouchableOpacity key={index} onPress={() => { }} >
+          <View style={styles.card}>
+            <View style={styles.cardImgWrapper}>
+              <Image source={require('../assets/usericon.png')} resizeMode="contain" style={styles.cardImg} />
+            </View>
+            <View style={styles.cardInfo}>
+              <Text style={styles.cardTitle}>
+                {item.email}
+              </Text>
+
+              <Text style={styles.cardDetails}>
+                {item.phone_number}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      )
+    })
+  }
+
   return (
     <ScrollView style={styles.container}>
-<View  style={styles.container}>
-  
-<View style={styles.categoryContainer}>
-  <TouchableOpacity style={styles.categoryBtn} onPress={()=>{}}>
-<View style={styles.categoryIcon}>
-<Image source={require('../assets/ana.png' ) }    size={35} style={styles.categoryIcon}/>
-</View>
-<Text style={styles.categoryBtnTxt}>Analytics</Text>
-</TouchableOpacity>
-<TouchableOpacity style={styles.categoryBtn} onPress={()=>navigation.navigate(CardCustScreen)}>
-<View style={styles.categoryIcon}>
-<Image source={require('../assets/cus.png' ) }    size={35} style={styles.categoryIcon}/>
-</View>
-<Text style={styles.categoryBtnTxt}>Customers</Text>
-</TouchableOpacity>
-<TouchableOpacity style={styles.categoryBtn}onPress={()=>navigation.navigate(CardCustScreen)}>
-<View style={styles.categoryIcon}>
-<Image source={require('../assets/order.png' ) }    size={35} style={styles.categoryIcon}/>
+      <View style={styles.container}>
 
-</View>
-<Text style={styles.categoryBtnTxt}>Orders</Text>
-</TouchableOpacity>
-</View>
-<View>
-<Image source={require('../assets/anal.png' ) }resizeMode="cover" style={{width:280,height:170,alignSelf:"center"}} />
-</View>
-<View style={styles.cardInfo}>
-                  <Text style={styles.cardTitle}>
-TOTAL REVENUE
-                  </Text>
-                  
-                  <Text style={styles.cardDetails}>
-                  35500$
-            </Text>
-            
-                </View>
-                <View style={styles.cardInfo}>
-                  <Text style={styles.cardTitle}>
-TOTAL PROFIT
-                  </Text>
-                  
-                  <Text style={styles.cardDetails}>
-                  30000$
-            </Text>
-            
-                </View>
-                <View style={styles.cardInfo}>
-                  <Text style={styles.cardTitle}>
-TOTAL VIEWS
-                  </Text>
-                  
-                  <Text style={styles.cardDetails}>
-                  30000$
-            </Text>
-            
-                </View>
-<View style={styles.cardsWrapper}>
-              <Text style={{alignSelf:"center",fontSize:18,fontWeight:"bold", marginTop:20}} >Recent Orders</Text>
-              <TouchableOpacity onPress= {()=>{}}>
-              <View style={styles.card}>
-                <View style={styles.cardImgWrapper}>
-                <Image source={require('../assets/skd.png' ) }resizeMode="cover" style={styles.cardImg}/>
-                </View>
-                <View style={styles.cardInfo}>
-                  <Text style={styles.cardTitle}>
-Skater Dress
-                  </Text>
-                  
-                  <Text style={styles.cardDetails}>
-            30$ For 1 Pair
-            </Text>
-                </View>
-              </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress= {()=>{}}>
-              <View style={styles.card}>
-                <View style={styles.cardImgWrapper}>
-                <Image source={require('../assets/shn.png' ) }resizeMode="cover" style={styles.cardImg}/>
-                </View>
-                <View style={styles.cardInfo}>
-                  <Text style={styles.cardTitle}>
-Nike Shoes
-                  </Text>
-                  
-                  <Text style={styles.cardDetails}>
-                  30$ with Free Deliviery
-            </Text>
-                </View>
-              </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress= {()=>{}}>
-              <View style={styles.card}>
-                <View style={styles.cardImgWrapper}>
-                <Image source={require('../assets/rs.png' ) }resizeMode="cover" style={styles.cardImg}/>
-                </View>
-                <View style={styles.cardInfo}>
-                  <Text style={styles.cardTitle}>
-Ray Ban Sunglasses
-                  </Text>
-                  
-                  <Text style={styles.cardDetails}>
-             1 Pair of Polarized Sunglases 20$            </Text>
-                </View>
-              </View>
-              </TouchableOpacity>
+        <View style={styles.categoryContainer}>
+          <TouchableOpacity style={styles.categoryBtn} onPress={() => { }}>
+            <View style={styles.categoryIcon}>
+              <Image source={require('../assets/ana.png')} size={35} style={styles.categoryIcon} />
             </View>
-            
-            
-</View>
-</ScrollView>
+            <Text style={styles.categoryBtnTxt}>Analytics</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryBtn} onPress={() => navigation.navigate(CardCustScreen)}>
+            <View style={styles.categoryIcon}>
+              <Image source={require('../assets/cus.png')} size={35} style={styles.categoryIcon} />
+            </View>
+            <Text style={styles.categoryBtnTxt}>Customers</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryBtn} onPress={() => navigation.navigate(CardCustScreen)}>
+            <View style={styles.categoryIcon}>
+              <Image source={require('../assets/order.png')} size={35} style={styles.categoryIcon} />
+
+            </View>
+            <Text style={styles.categoryBtnTxt}>Orders</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Image source={require('../assets/anal.png')} resizeMode="cover" style={{ width: 280, height: 170, alignSelf: "center" }} />
+        </View>
+        <View style={styles.cardInfo}>
+          <Text style={styles.cardTitle}>
+            TOTAL REVENUE
+                  </Text>
+
+          <Text style={styles.cardDetails}>
+            35500$
+            </Text>
+
+        </View>
+        <View style={styles.cardInfo}>
+          <Text style={styles.cardTitle}>
+            TOTAL PROFIT
+                  </Text>
+
+          <Text style={styles.cardDetails}>
+            30000$
+            </Text>
+
+        </View>
+        <View style={styles.cardInfo}>
+          <Text style={styles.cardTitle}>
+            TOTAL VIEWS
+                  </Text>
+
+          <Text style={styles.cardDetails}>
+            30000$
+            </Text>
+
+        </View>
+        <View style={styles.cardsWrapper}>
+          <Text style={{ alignSelf: "center", fontSize: 18, fontWeight: "bold", marginTop: 20 }} >Resellers</Text>
+          {renderResellers()}
+        </View>
+
+
+      </View>
+    </ScrollView>
   )
 }
 const styles = StyleSheet.create({
@@ -174,8 +187,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 5,
     color: 'black',
-    fontWeight:"bold"
-    
+    fontWeight: "bold"
+
   },
   cardsWrapper: {
     marginTop: 20,
@@ -183,17 +196,21 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   card: {
-    height: 100,
+    height: 80,
+    width: '100%',
     marginVertical: 10,
     flexDirection: 'row',
     shadowColor: '#999',
-    shadowOffset: {width: 0, height: 1},
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
   },
   cardImgWrapper: {
-    flex: 1,
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+    alignSelf: 'center'
   },
   cardImg: {
     height: '100%',
@@ -218,6 +235,7 @@ const styles = StyleSheet.create({
   },
   cardDetails: {
     fontSize: 12,
-    color: '#444',
+    color: '#666',
+    marginTop: 5,
   },
 });

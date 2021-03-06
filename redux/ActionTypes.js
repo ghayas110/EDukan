@@ -1,5 +1,5 @@
 export const ADD_LOGUSER = 'ADD_LOGUSER'
-
+export const LOGGEDOUT = 'LOGGEDOUT'
 
 
 

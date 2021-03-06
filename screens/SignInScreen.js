@@ -7,7 +7,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import { connect, useDispatch } from 'react-redux';
 import { StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import * as ActionTypes from '../redux/ActionTypes'
-import { Auth } from 'aws-amplify';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { listUsers } from '../graphql/queries';
 
 const SignInScreen = (props) => {
 
@@ -33,11 +34,19 @@ const SignInScreen = (props) => {
         try {
             if (/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/.test(data.email)) {
                 await Auth.signIn(data.email, data.password)
-                    .then((user) => {
+                    .then(async (user) => {
+                        var val = Object.values(user.attributes)[Object.keys(user.attributes).findIndex((el) => el === 'custom:category')]
+                        const getIdData = await API.graphql(graphqlOperation(listUsers, { filter: { email: { contains: user.attributes.email } } }))
+                        const getId = getIdData.data.listUsers.items
+                        var loggedinUserId = ''
+                        if (getId[0] !== undefined) {
+                            loggedinUserId = getId[0].id
+                        }
                         dispatch({
                             type: ActionTypes.ADD_LOGUSER,
-                            payload: { username: user.username, userEmail: user.attributes.email, phone_number: user.attributes.phone_number }
+                            payload: { id: loggedinUserId, username: user.username, userEmail: user.attributes.email, phone_number: user.attributes.phone_number, category: val }
                         })
+                        Auth.currentUserInfo().then((user) => { console.log('elitesignin', val) })
                         navigation.dispatch(StackActions.push('elite'))
                     })
                 // console.log(val)

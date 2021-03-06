@@ -4,15 +4,22 @@ import { Text, View, StyleSheet, StatusBar, TouchableOpacity } from 'react-nativ
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { connect } from 'react-redux';
+import { connect, useSelector, useStore } from 'react-redux';
 
 const SplashScreen = (props) => {
 
     const navigation = useNavigation();
+    const { loggedInUser } = useSelector(state => state)
 
     useEffect(() => {
+        console.log('loggedInUser', loggedInUser, typeof (loggedInUser.users), loggedInUser.users.length)
         setTimeout(() => {
-            navigation.dispatch(StackActions.replace('main'))
+            if (loggedInUser.users.length === undefined) {
+                if (loggedInUser.users.category === 'elite')
+                    navigation.dispatch(StackActions.replace('elite'))
+            }
+            else
+                navigation.dispatch(StackActions.replace('main'))
         }, 3000);
     }, [])
     return (
@@ -31,7 +38,7 @@ const SplashScreen = (props) => {
                 <Text style={styles.title}>Want to Plan an Event</Text>
                 <Text style={styles.stitle}>We Eventify are here to Help You</Text>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => {}}>
+                    <TouchableOpacity onPress={() => { }}>
                         <LinearGradient
                             colors={['#F99B4E', '#01ab9d']}
                             style={styles.signIn}

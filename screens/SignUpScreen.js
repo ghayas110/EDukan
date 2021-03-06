@@ -8,6 +8,7 @@ import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import { ButtonGroup } from 'react-native-elements';
 import { createUser, updateUser } from '../graphql/mutations';
+import { getUser, listUsers } from '../graphql/queries';
 
 const SignUpScreen = (props) => {
 
@@ -20,7 +21,9 @@ const SignUpScreen = (props) => {
         password: '',
         phone_number: '',
         confirm_password: '',
+        referalEmail: '',
         check_textInputChange: false,
+        check_ReferalEmailChange: false,
         check_EmailChange: false,
         check_PhoneChange: false,
         secureTextEntry: true,
@@ -40,15 +43,21 @@ const SignUpScreen = (props) => {
                         'custom:category': data.category
                     }
                 })
-                    .then((user) => {
+                    .then(async (user) => {
                         if (data.category === 'elite') {
                             const user = { username: data.email, email: data.email, phone_number: data.phone_number, category: data.category }
-                            await API.graphql(graphqlOperation(createUser, { input: user }))
+                            const newEliteUser = await API.graphql(graphqlOperation(createUser, { input: user }))
+                            console.log(newEliteUser)
                         }
-                        else {
-                            const user = { username: data.email, email: data.email, phone_number: data.phone_number, category: data.category }
-                            await API.graphql(graphqlOperation(createUser, { input: user }))
-                            // await API.graphql(graphqlOperation(updateUser, {}))
+                        else if (data.category === 'reseller') {
+                            console.log('reseller')
+                            const eliteUserData = await API.graphql(graphqlOperation(listUsers, { filter: { email: { contains: data.referalEmail } } }))
+                            const eliteUser = eliteUserData.data.listUsers.items
+                            console.log('eliteUser:', JSON.stringify(eliteUser))
+                            const newResellerUser = { username: data.email, email: data.email, phone_number: data.phone_number, category: data.category, elliteId: eliteUser[0].id }
+                            const resellerUser = await API.graphql(graphqlOperation(createUser, { input: newResellerUser }))
+                            // const updatedEliteUser = await API.graphql(graphqlOperation(updateUser, { input: { id: eliteUser.id, resellers: [...eliteUser.resellers, newResellerUser] } }))
+                            console.log('createdResellerUser', resellerUser.data)
                         }
                         navigation.dispatch(StackActions.push('confirmation', { username: user.user.getUsername(), userEmail: data.email }))
                         console.log(user, user.user.getUsername())
@@ -60,12 +69,27 @@ const SignUpScreen = (props) => {
         } catch (error) {
             console.log('error signing up:', error);
             ToastAndroid.showWithGravity(error.message, ToastAndroid.LONG, ToastAndroid.CENTER)
-            // console.log(data)
         }
     }
 
     const updateIndex = (selectedIndex) => {
         setData({ ...data, category: selectedIndex === 0 ? 'reseller' : 'elite', index: selectedIndex })
+    }
+
+    const handleReferalEmailAddress = (val) => {
+        if (/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/.test(val)) {
+            setData({
+                ...data,
+                referalEmail: val,
+                check_ReferalEmailChange: true
+            });
+        } else {
+            setData({
+                ...data,
+                referalEmail: val,
+                check_ReferalEmailChange: false
+            });
+        }
     }
 
     const handleEmailAddress = (val) => {
@@ -137,8 +161,7 @@ const SignUpScreen = (props) => {
             </View>
             <Animatable.View
                 animation="fadeInUpBig"
-                style={styles.footer}
-            >
+                style={styles.footer} >
                 <ScrollView>
                     <Text style={styles.text_footer}>Category</Text>
                     <View style={styles.action}>
@@ -149,7 +172,40 @@ const SignUpScreen = (props) => {
                             buttons={['Reseller', 'Elite']}
                         />
                     </View>
-                    <Text style={{ color: '#000000' }} >{data.category}</Text>
+
+                    {data.index === 0 &&
+                        <Animatable.View animation='fadeIn' easing='ease-in-out' >
+                            <Text style={{ marginTop: 20 }}>Optional</Text>
+                            <Text style={styles.text_footer}>Your Elite Referal Email</Text>
+                            <View style={styles.action}>
+                                <FontAwesome
+                                    name="envelope-o"
+                                    color="#05375a"
+                                    size={20}
+                                />
+                                <TextInput
+                                    placeholder="Your Elite's Email"
+                                    textContentType='emailAddress'
+                                    keyboardType='email-address'
+                                    style={styles.textInput}
+                                    autoCapitalize="none"
+                                    onChangeText={(val) => handleReferalEmailAddress(val)}
+                                />
+                                {data.check_ReferalEmailChange ?
+                                    <Animatable.View
+                                        animation="bounceIn"
+                                    >
+                                        <Feather
+                                            name="check-circle"
+                                            color="green"
+                                            size={20}
+                                        />
+                                    </Animatable.View>
+                                    : null}
+                            </View>
+                        </Animatable.View>}
+
+
                     <Text style={[styles.text_footer, {
                         marginTop: 20
                     }]}>Email</Text>
