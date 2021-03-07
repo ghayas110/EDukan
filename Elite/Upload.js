@@ -305,7 +305,7 @@ export default function Upload() {
           />
         </View>
         <View style={styles.action}>
-          <FontAwesome name="user-o" color={'#000'} size={20} />
+          <FontAwesome name="fa-list-alt" color={'#000'} size={20} />
           <TextInput
             placeholder="Category"
             placeholderTextColor="#666666"
@@ -315,7 +315,7 @@ export default function Upload() {
           />
         </View>
         <View style={styles.action}>
-          <Feather name="phone" color={'#000'} size={20} />
+        <MaterialIcon name='Description' size={20} color='#ccc' /><Text>Add Images</Text>
           <TextInput
             placeholder="description"
             multiline={true}
@@ -328,7 +328,7 @@ export default function Upload() {
           />
         </View>
         <View style={styles.action}>
-          <FontAwesome name="envelope-o" color={'#000'} size={20} />
+          <FontAwesome name="fa-money" color={'#000'} size={20} />
           <TextInput
             placeholder="Price"
             placeholderTextColor="#666666"
@@ -353,7 +353,7 @@ export default function Upload() {
           />
         </View> */}
         <View style={styles.action}>
-          <Icon name="map-marker-outline" color={'#000'} size={20} />
+          <Icon name="balance-scale" color={'#000'} size={20} />
           <TextInput
             placeholder="Tax Status"
             placeholderTextColor="#666666"

@@ -100,6 +100,18 @@ const DashboardScreen =({navigation})=> {
       }}>
       
       <DashboardStack.Screen name="Dashboard" component={Dashboard} options={{headerTitleAlign: 'center',headerTintColor:"white" } } />
+      <DashboardStack.Screen 
+        name="CardCustScreen"
+        component={CardCustScreen}
+        options={{title:" Planners",headerTitleAlign: 'center',headerTintColor:"black"}} />
+          
+          <DashboardStack.Screen 
+        name="CardItemDetails"
+        component={CardCustDetails}
+        options={{ headerBackTitleVisible:false,headerTitle:false,headerTransparent:true,headerTintColor:"white",title:" Planners",headerTitleAlign: 'center',headerTintColor:"black" }
+        
+        }
+         />
       <DashboardStack.Screen name="Upload" component={Upload} options={{headerTitleAlign: 'center',headerTintColor:"white" } } />
     </DashboardStack.Navigator>)
     }
@@ -137,18 +149,7 @@ const DashboardScreen =({navigation})=> {
           ),
           
          }}/>
-         <HomeStack.Screen 
-        name="CardCustScreen"
-        component={CardCustScreen}
-        options={{title:" Planners",headerTitleAlign: 'center',headerTintColor:"black"}} />
-          
-          <HomeStack.Screen 
-        name="CardItemDetails"
-        component={CardCustDetails}
-        options={{ headerBackTitleVisible:false,headerTitle:false,headerTransparent:true,headerTintColor:"white",title:" Planners",headerTitleAlign: 'center',headerTintColor:"black" }
-        
-        }
-         />
+      
                {/* <HomeStack.Screen 
         name="CardOrderScreen"
         component={CardOrderScreen}

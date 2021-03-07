@@ -37,6 +37,7 @@ import DrawerContent from './Elite/DrawerContent';
 import Main from './component/Main';
 import Amplify, { Auth } from 'aws-amplify'
 import config from './aws-exports'
+import Upload from './Elite/Upload';
 
 
 Amplify.configure(config)
@@ -55,6 +56,7 @@ const App = () => {
           <Main />
         </PersistGate>
       </Provider>
+ 
       {/* <NavigationContainer> */}
       {/* <SignUpScreen/>  */}
       {/* <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
