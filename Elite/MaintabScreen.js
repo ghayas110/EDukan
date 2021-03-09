@@ -122,10 +122,7 @@ const DashboardScreen =({navigation})=> {
           backgroundColor:"white"  
         }
       }}>
-        <HomeStack.Screen name="Home"  component={HomeScreen} options={{title:"EDukan",headerTitleAlign: 'center',headerTintColor:"black",headerLeft:()=>
-        <View style={{marginLeft:10}}>
-          <MaterialCommunityIcons name="menu" color='black'  size={26} onPress={()=>navigation.openDrawer()}/>
-          </View>,          headerRight: () => (
+        <HomeStack.Screen name="Home"  component={HomeScreen} options={{title:"EDukan",headerTitleAlign: 'center',headerTintColor:"black",headerRight: () => (
             <View style={{flexDirection: 'row', marginRight: 10}}>
               <Ionicons 
                 name="ios-search"
@@ -134,17 +131,7 @@ const DashboardScreen =({navigation})=> {
                 style={{marginTop:10}}
                 onPress={() => {}}
               />
-              <TouchableOpacity
-                style={{paddingHorizontal: 10, marginTop: 2}}
-                onPress={() => {
-                  navigation.navigate('Profile');
-                }}>
-                <Avatar.Image
-               source={require('../assets/ghayas.jpg' ) }
-               size={40}
- 
-                />
-              </TouchableOpacity>
+             
             </View>
           ),
           
