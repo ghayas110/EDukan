@@ -46,7 +46,7 @@ const ProfileScreen = () => {
         <View style={{ flexDirection: 'row', marginTop: 15 }}>
           <Avatar.Image
             source={
-              require('../assets/ghayas.jpg')
+              require('')
             }
             size={80}
           />
@@ -54,8 +54,8 @@ const ProfileScreen = () => {
             <Title style={[styles.title, {
               marginTop: 15,
               marginBottom: 5,
-            }]}>Ghayas</Title>
-            <Caption style={styles.caption}>@ghayas110</Caption>
+            }]}>user</Title>
+            <Caption style={styles.caption}>@user</Caption>
           </View>
         </View>
       </View>
